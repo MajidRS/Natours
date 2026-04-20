@@ -18,6 +18,7 @@ import AppError from './utils/appError.js'
 import globalErrorHandler from './controllers/errorController.js'
 import tourRouter from './routes/tourRoute.js'
 import userRouter from './routes/userRoute.js'
+import reviewRouter from './routes/reviewRoute.js'
 
 const fileName = fileURLToPath(import.meta.url)
 const dirName = path.dirname(fileName)
@@ -66,6 +67,7 @@ app.use(express.static(staticFilePath))
 
 app.use('/api/v1/tours', tourRouter)
 app.use('/api/v1/users', userRouter)
+app.use('/api/v1/reviews', reviewRouter)
 
 app.all(/.*/, (req, res, next) => {
   const error = new AppError(
