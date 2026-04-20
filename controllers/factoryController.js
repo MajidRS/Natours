@@ -4,7 +4,13 @@ import APIFeatures from '../utils/apiFeatures.js'
 
 const getAll = (Model) =>
   catchAsync(async (req, res, next) => {
-    const features = new APIFeatures(Model.find(), req.query, req.aliasQuery)
+    let filter = {}
+    if (req.params.tourId) filter = { tour: req.params.tourId }
+    const features = new APIFeatures(
+      Model.find(filter),
+      req.query,
+      req.aliasQuery
+    )
       .filter()
       .sort()
       .selectFields()
@@ -19,9 +25,12 @@ const getAll = (Model) =>
     })
   })
 
-const getOne = (Model) =>
+const getOne = (Model, populateOptions) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id)
+    if (populateOptions) {
+      query = query.populate(populateOptions)
+    }
     const doc = await query
     if (!doc) {
       return next(new AppError('No document found with that ID', 404))
