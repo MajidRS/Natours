@@ -5,8 +5,11 @@ import xssSanitize from 'xss-sanitize'
 
 import * as tourController from '../controllers/tourController.js'
 import * as authController from '../controllers/authController.js'
+import reviewRouter from '../routes/reviewRoute.js'
 
 const router = express.Router()
+
+router.use('/:tourId/reviews', reviewRouter)
 
 router.param('id', paramSanitizeHandler(), xssSanitize.paramSanitize())
 
