@@ -1,3 +1,5 @@
+import { configDotenv } from 'dotenv'
+configDotenv({ path: './config.env' })
 import Tour from '../models/tourModel.js'
 import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
@@ -20,7 +22,8 @@ const getTour = catchAsync(async (req, res, next) => {
   }
   res.status(200).render('tour', {
     title: `${tour.name} Tour`,
-    tour
+    tour,
+    mapboxToken: process.env.MAP_BOX_ACCESS_TOKEN
   })
 })
 
